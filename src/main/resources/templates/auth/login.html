@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Accedi</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Accedi</h1>
+
+	<p class="messaggio-successo" th:if="${param.registrato != null}">Registrazione completata, effettua il login.</p>
+	<p class="messaggio-errore" th:if="${param.error != null}">Username o password non validi.</p>
+
+	<form class="form-verticale" th:action="@{/login}" method="post">
+		<div>
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" required>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" required>
+		</div>
+		<button type="submit" class="btn">Accedi</button>
+	</form>
+
+	<a th:href="@{/oauth2/authorization/google}" class="btn-google">
+		<img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+		Accedi con Google
+	</a>
+
+	<p>Non hai un account? <a th:href="@{/registrazione}">Registrati</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifica utente</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Modifica ' + ${utenteModificato.nome} + ' ' + ${utenteModificato.cognome}">Modifica utente</h1>
+	<p class="page-subtitle">Username: <strong th:text="${utenteModificato.credenziali.username}">username</strong> (non modificabile da qui: solo l'utente puo' cambiare il proprio username dall'area personale)</p>
+	<form class="form-verticale" th:action="@{/admin/utenti/{id}/modifica(id=${utenteModificato.id})}"
+	      th:object="${utenteFormDto}" method="post">
+		<div>
+			<label for="nome">Nome</label>
+			<input type="text" id="nome" th:field="*{nome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		<div>
+			<label for="cognome">Cognome</label>
+			<input type="text" id="cognome" th:field="*{cognome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+		</div>
+		<div>
+			<label for="email">Email</label>
+			<input type="email" id="email" th:field="*{email}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+		</div>
+		<div>
+			<label for="ruolo">Ruolo</label>
+			<select id="ruolo" th:field="*{ruolo}">
+				<option value="USER_ROLE">USER_ROLE</option>
+				<option value="ADMIN_ROLE">ADMIN_ROLE</option>
+			</select>
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('ruolo')}" th:errors="*{ruolo}"></span>
+		</div>
+		<button type="submit" class="btn">Salva modifiche</button>
+	</form>
+	<p><a th:href="@{/admin/utenti}">&laquo; Torna alla gestione utenti</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

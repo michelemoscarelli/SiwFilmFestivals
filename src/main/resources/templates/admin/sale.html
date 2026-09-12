@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione sale</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione sale</h1>
+	<p><a class="btn" th:href="@{/admin/sale/aggiungi}">+ Nuova sala</a></p>
+	<table class="data-table">
+		<thead><tr><th>Nome</th><th>Indirizzo</th><th>Capienza</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="sala : ${elencoSale}">
+			<td th:text="${sala.nome}">Nome</td>
+			<td th:text="${sala.indirizzo}">Indirizzo</td>
+			<td th:text="${sala.capienza}">Capienza</td>
+			<td>
+				<a th:href="@{/admin/sale/{id}/modifica(id=${sala.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/admin/sale/{id}/elimina(id=${sala.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/sale')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

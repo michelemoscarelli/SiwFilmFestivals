@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="'Recensioni - ' + ${film.titolo}">Recensioni</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Recensioni di ' + ${film.titolo}">Recensioni</h1>
+	<p th:if="${#lists.isEmpty(recensioni)}">Nessuna recensione ancora scritta per questo film.</p>
+	<div th:each="r : ${recensioni}" class="recensione-item">
+		<div class="recensione-header">
+			<span class="avatar-iniziali"
+			      th:text="${#strings.substring(r.autore.nome,0,1) + #strings.substring(r.autore.cognome,0,1)}">AB</span>
+			<a class="autore-link" th:href="@{/utente/{id}(id=${r.autore.id})}"
+			   th:text="${r.autore.nome + ' ' + r.autore.cognome}">Autore</a>
+			<span class="badge" th:text="${r.voto + '/10'}">Voto</span>
+			<span class="recensione-data" th:text="${r.data + ' ' + #temporals.format(r.oraEffettiva, 'HH:mm')}">Data</span>
+		</div>
+		<p th:text="${r.testo}">Testo recensione</p>
+	</div>
+	<p><a th:href="@{/film/{id}(id=${film.id})}">&laquo; Torna al film</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

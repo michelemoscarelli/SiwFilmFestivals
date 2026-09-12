@@ -1,0 +1,101 @@
+.film-search {
+	width: 100%;
+	max-width: 420px;
+	padding: 0.6rem 0.9rem;
+	border: 1px solid #e6dcc6;
+	border-radius: 8px;
+	font-size: 1rem;
+	margin-bottom: 1.2rem;
+	box-sizing: border-box;
+}
+
+.film-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 1rem;
+}
+
+.film-card {
+	display: block;
+	background: white;
+	border: 1px solid #e6dcc6;
+	border-radius: 10px;
+	padding: 1rem 1.2rem;
+	text-decoration: none;
+	color: #221f26;
+	transition: box-shadow 0.15s ease;
+}
+
+.film-card:hover {
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.film-card h2 {
+	margin: 0 0 0.4rem 0;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 1.1rem;
+	color: #7c1e30;
+}
+
+.film-card-meta {
+	margin: 0 0 0.2rem 0;
+	color: #555;
+	font-size: 0.9rem;
+}
+
+.film-card-paese {
+	margin: 0;
+	color: #777;
+	font-size: 0.85rem;
+}
+
+.stato-messaggio {
+	color: #666;
+}
+
+.stato-errore {
+	color: #a3283f;
+}
+
+.film-totale {
+	color: #221f26;
+	margin: 0 0 1rem 0;
+}
+
+/* Controlli di paginazione: sempre presenti in fondo all'elenco, anche con una sola pagina
+   totale (in quel caso i bottoni sono disabilitati, non nascosti) - stesso pattern delle liste
+   Thymeleaf lato server. */
+.film-paginazione {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.2rem;
+	margin: 1.5rem 0;
+}
+
+.film-pagina-info {
+	color: #555;
+	font-size: 0.9rem;
+}
+
+.film-pagina-btn {
+	background-color: transparent;
+	color: #a9822f;
+	border: 1px solid #c9a24d;
+	border-radius: 6px;
+	padding: 0.5rem 0.9rem;
+	font-size: 0.9rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition: 0.15s;
+}
+
+.film-pagina-btn:hover:not(:disabled) {
+	background-color: #c9a24d;
+	color: #17141c;
+}
+
+.film-pagina-btn:disabled {
+	opacity: 0.4;
+	cursor: default;
+}

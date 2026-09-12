@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${festival.nome}">Festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="${festival.nome}">Nome festival</h1>
+	<p class="page-subtitle">
+		<span th:text="${festival.citta}">Citta'</span> &middot;
+		<span th:text="${festival.dataInizio + ' - ' + festival.dataFine}">date</span>
+	</p>
+	<p th:text="${festival.descrizione}">Descrizione del festival.</p>
+
+	<div sec:authorize="hasAuthority('ADMIN_ROLE')" style="margin-bottom:1.5rem;">
+		<a class="btn btn-outline" th:href="@{/admin/festival/{id}/associa-film(id=${festival.id})}">Gestisci film del festival</a>
+		<a class="btn btn-outline" th:href="@{/admin/festival/{id}/proiezioni/aggiungi(id=${festival.id})}">Programma proiezione</a>
+	</div>
+
+	<h2>Film partecipanti</h2>
+	<p th:if="${#lists.isEmpty(filmPartecipanti)}">Nessun film ancora associato a questo festival.</p>
+	<div class="card-grid">
+		<a class="card" th:each="film : ${filmPartecipanti}" th:href="@{/film/{id}(id=${film.id})}">
+			<h3 th:text="${film.titolo}">Titolo</h3>
+			<p th:text="${film.genere + ' - ' + film.anno}">Genere - Anno</p>
+		</a>
+	</div>
+
+	<h2>Programma proiezioni</h2>
+	<p><a th:href="@{/festival/{id}/programma(id=${festival.id})}">Vedi il programma completo &raquo;</a></p>
+	<p th:if="${#lists.isEmpty(programma)}">Nessuna proiezione ancora programmata.</p>
+	<table class="data-table" th:unless="${#lists.isEmpty(programma)}">
+		<thead>
+		<tr><th>Data</th><th>Ora</th><th>Film</th><th>Sala</th><th>Stato</th></tr>
+		</thead>
+		<tbody>
+		<tr th:each="p : ${programma}">
+			<td th:text="${p.data}">Data</td>
+			<td th:text="${p.ora}">Ora</td>
+			<td><a th:href="@{/film/{id}(id=${p.film.id})}" th:text="${p.film.titolo}">Film</a></td>
+			<td th:text="${p.sala.nome}">Sala</td>
+			<td th:text="${p.stato}">Stato</td>
+		</tr>
+		</tbody>
+	</table>
+	<p><a th:href="@{/festival}">&laquo; Torna all'elenco festival</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

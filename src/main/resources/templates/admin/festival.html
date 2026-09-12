@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione festival</h1>
+	<p><a class="btn" th:href="@{/admin/festival/aggiungi}">+ Nuovo festival</a></p>
+	<table class="data-table">
+		<thead><tr><th>Nome</th><th>Anno</th><th>Citta'</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="festival : ${elencoFestival}">
+			<td th:text="${festival.nome}">Nome</td>
+			<td th:text="${festival.anno}">Anno</td>
+			<td th:text="${festival.citta}">Citta'</td>
+			<td>
+				<a th:href="@{/festival/{id}(id=${festival.id})}">Vedi</a>
+				&middot;
+				<a th:href="@{/admin/festival/{id}/modifica(id=${festival.id})}">Modifica</a>
+				&middot;
+				<a th:href="@{/admin/festival/{id}/associa-film(id=${festival.id})}">Film</a>
+				&middot;
+				<a th:href="@{/admin/festival/{id}/proiezioni/aggiungi(id=${festival.id})}">Programma</a>
+				&middot;
+				<form th:action="@{/admin/festival/{id}/elimina(id=${festival.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/festival')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

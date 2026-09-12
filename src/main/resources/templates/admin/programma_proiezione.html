@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Programma proiezione</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Nuova proiezione - ' + ${festival.nome}">Programma proiezione</h1>
+	<p class="box-avviso" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+	<p th:if="${#lists.isEmpty(filmDelFestival)}" class="box-avviso">
+		Nessun film e' ancora associato a questo festival: associane uno prima di programmare una proiezione.
+	</p>
+	<form class="form-verticale" th:unless="${#lists.isEmpty(filmDelFestival)}"
+	      th:action="@{/admin/festival/{id}/proiezioni/aggiungi(id=${festival.id})}"
+	      th:object="${proiezioneFormDto}" method="post">
+		<div>
+			<label for="filmId">Film</label>
+			<select id="filmId" th:field="*{filmId}">
+				<option th:each="film : ${filmDelFestival}" th:value="${film.id}"
+				        th:text="${film.titolo + ' (' + film.durata + ' min)'}">Film</option>
+			</select>
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('filmId')}" th:errors="*{filmId}"></span>
+		</div>
+		<div>
+			<label for="salaId">Sala</label>
+			<select id="salaId" th:field="*{salaId}">
+				<option th:each="sala : ${sale}" th:value="${sala.id}" th:text="${sala.nome}">Sala</option>
+			</select>
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('salaId')}" th:errors="*{salaId}"></span>
+		</div>
+		<div>
+			<label for="data">Data</label>
+			<input type="date" id="data" th:field="*{data}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('data')}" th:errors="*{data}"></span>
+		</div>
+		<div>
+			<label for="ora">Ora</label>
+			<input type="time" id="ora" th:field="*{ora}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('ora')}" th:errors="*{ora}"></span>
+		</div>
+		<button type="submit" class="btn">Programma proiezione</button>
+	</form>
+	<p><a th:href="@{/festival/{id}(id=${festival.id})}">&laquo; Torna al festival</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

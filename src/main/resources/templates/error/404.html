@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Pagina non trovata</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">404 &mdash; Pagina non trovata</h1>
+	<p th:text="${errorMessage}">La risorsa richiesta non esiste.</p>
+	<a class="btn" th:href="@{/}">Torna alla home</a>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

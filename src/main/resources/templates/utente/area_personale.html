@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Area personale</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Ciao, ' + ${utente.nome}">Area personale</h1>
+	<p th:text="${utente.email}">email</p>
+	<p><a class="btn btn-outline" th:href="@{/area-personale/profilo}">Il mio profilo &amp; impostazioni</a></p>
+
+	<h2>Le tue recensioni</h2>
+	<p th:if="${#lists.isEmpty(recensioni)}">Non hai ancora scritto nessuna recensione.</p>
+	<div th:each="r : ${recensioni}" class="card" style="margin-bottom:0.8rem;">
+		<p><a th:href="@{/film/{id}(id=${r.film.id})}" th:text="${r.film.titolo}">Film</a>
+			&mdash; <span class="badge" th:text="${r.voto + '/10'}">Voto</span></p>
+		<p th:text="${r.testo}">Testo</p>
+		<a th:href="@{/recensioni/{id}/modifica(id=${r.id})}">Modifica</a>
+		&middot;
+		<form th:action="@{/recensioni/{id}/elimina(id=${r.id})}" method="post" style="display:inline;">
+			<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+		</form>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

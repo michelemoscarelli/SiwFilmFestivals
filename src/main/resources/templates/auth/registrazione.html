@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registrati</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Registrati</h1>
+
+	<form class="form-verticale" th:action="@{/registrazione}" th:object="${registrazioneDto}" method="post">
+		<div>
+			<label for="nome">Nome</label>
+			<input type="text" id="nome" th:field="*{nome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		<div>
+			<label for="cognome">Cognome</label>
+			<input type="text" id="cognome" th:field="*{cognome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+		</div>
+		<div>
+			<label for="email">Email</label>
+			<input type="email" id="email" th:field="*{email}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+			<span class="messaggio-errore" th:if="${erroreEmail}" th:text="${erroreEmail}"></span>
+		</div>
+		<div>
+			<label for="username">Username</label>
+			<input type="text" id="username" th:field="*{username}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+			<span class="messaggio-errore" th:if="${erroreUsername}" th:text="${erroreUsername}"></span>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" id="password" th:field="*{password}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+		</div>
+		<button type="submit" class="btn">Registrati</button>
+	</form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

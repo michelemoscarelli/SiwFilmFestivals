@@ -1,0 +1,522 @@
+:root {
+	/* Palette "cinema/red carpet": nero cinema per le fasce scure, rosso per gli accenti
+	   principali, oro per i dettagli, su un fondo avorio caldo. */
+	--colore-scuro: #17141c;
+	--colore-primario: #a3283f;
+	--colore-primario-scuro: #7c1e30;
+	--colore-oro: #c9a24d;
+	--colore-oro-scuro: #a9822f;
+	--colore-sfondo: #faf7f0;
+	--colore-testo: #221f26;
+	--colore-bordo: #e6dcc6;
+	--colore-errore: #a3283f;
+	--colore-successo: #2f6b4f;
+	/* Font "da locandina" per titoli e brand, solo font di sistema (nessuna chiamata esterna). */
+	--font-titoli: Georgia, 'Times New Roman', serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	font-family: "Segoe UI", Arial, sans-serif;
+	background-color: var(--colore-sfondo);
+	color: var(--colore-testo);
+}
+
+/* Barra superiore con il logo del sito */
+.site-topbar {
+	background-color: var(--colore-scuro);
+	padding: 0.7rem 2rem;
+}
+
+.site-logo {
+	color: var(--colore-oro);
+	font-family: var(--font-titoli);
+	font-size: 1.4rem;
+	font-weight: bold;
+	letter-spacing: 0.03em;
+	text-decoration: none;
+}
+
+.site-logo:hover {
+	opacity: 0.9;
+	text-decoration: none;
+}
+
+/* Barra di navigazione, sotto la barra del logo */
+.site-navbar {
+	background-color: white;
+	border-bottom: 2px solid var(--colore-oro);
+	padding: 0.75rem 2rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.8rem;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-left, .navbar-right {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1.2rem;
+}
+
+.nav-link {
+	color: var(--colore-scuro);
+	font-weight: 600;
+	text-decoration: none;
+	font-size: 0.95rem;
+	transition: color 0.15s;
+}
+
+.nav-link:hover {
+	color: var(--colore-primario);
+	text-decoration: underline;
+}
+
+.navbar-welcome {
+	font-size: 0.9rem;
+	color: #555;
+	margin-right: 0.2rem;
+}
+
+.nav-btn {
+	display: inline-block;
+	font-size: 0.9rem;
+	font-weight: bold;
+	padding: 0.5rem 0.9rem;
+	border-radius: 6px;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	transition: 0.15s;
+}
+
+.nav-btn-primary {
+	background-color: var(--colore-primario);
+	color: white;
+}
+
+.nav-btn-primary:hover {
+	background-color: var(--colore-primario-scuro);
+}
+
+.nav-btn-outline {
+	background-color: transparent;
+	color: var(--colore-oro-scuro);
+	border: 1px solid var(--colore-oro);
+}
+
+.nav-btn-outline:hover {
+	background-color: var(--colore-oro);
+	color: var(--colore-scuro);
+}
+
+.nav-btn-danger {
+	background-color: var(--colore-primario-scuro);
+	color: white;
+}
+
+.nav-btn-danger:hover {
+	background-color: var(--colore-scuro);
+}
+
+.navbar-logout-form {
+	display: inline-block;
+	margin: 0;
+}
+
+.link-button {
+	background: none;
+	border: none;
+	color: white;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 1rem;
+	margin-left: 1.2rem;
+	padding: 0;
+}
+
+.page-container {
+	max-width: 1100px;
+	/* Ancorato a sinistra (non centrato): niente margin auto, il contenuto parte dal bordo
+	   sinistro del viewport (con il solo padding sotto) invece di stare in mezzo alla pagina. */
+	margin: 0;
+	padding: 2rem;
+}
+
+.page-title {
+	color: var(--colore-primario-scuro);
+	font-family: var(--font-titoli);
+	font-size: 2.6rem;
+	line-height: 1.15;
+	margin-bottom: 0.3rem;
+}
+
+.page-subtitle {
+	color: #555;
+	margin-top: 0;
+	margin-bottom: 1.5rem;
+}
+
+.card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1.2rem;
+}
+
+.card {
+	background: white;
+	border: 1px solid var(--colore-bordo);
+	border-radius: 10px;
+	padding: 1.2rem;
+	text-decoration: none;
+	color: var(--colore-testo);
+	display: block;
+	transition: box-shadow 0.15s ease;
+}
+
+.card:hover {
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.card h2, .card h3 {
+	margin-top: 0;
+	font-family: var(--font-titoli);
+	color: var(--colore-primario-scuro);
+}
+
+.sezione-titolo {
+	font-family: var(--font-titoli);
+	color: var(--colore-primario-scuro);
+	font-size: 1.5rem;
+	margin: 0 0 0.8rem 0;
+}
+
+/* Card "in evidenza" (es. festival in primo piano nella home): bordo oro per distinguerle
+   visivamente dalle card normali. */
+.card-in-evidenza {
+	border: 1px solid var(--colore-oro);
+	border-left: 4px solid var(--colore-oro);
+}
+
+.badge {
+	display: inline-block;
+	background-color: var(--colore-primario);
+	color: white;
+	border-radius: 999px;
+	padding: 0.15rem 0.7rem;
+	font-size: 0.8rem;
+	margin-right: 0.4rem;
+}
+
+table.data-table {
+	width: 100%;
+	border-collapse: collapse;
+	background: white;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+table.data-table th, table.data-table td {
+	padding: 0.6rem 0.8rem;
+	border-bottom: 1px solid var(--colore-bordo);
+	text-align: left;
+}
+
+table.data-table th {
+	background-color: var(--colore-primario);
+	color: white;
+}
+
+form.form-verticale {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	max-width: 560px;
+}
+
+form.form-verticale label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 0.3rem;
+}
+
+/* Larghezza piena (fino a max-width del form, come i bottoni sotto): senza questo i campi
+   restavano alla larghezza intrinseca del browser (~20 caratteri), piu' stretti dei bottoni
+   .btn/.btn-google che invece occupano tutta la colonna. */
+form.form-verticale input, form.form-verticale select, form.form-verticale textarea {
+	padding: 0.5rem;
+	border: 1px solid var(--colore-bordo);
+	border-radius: 6px;
+	font-size: 1rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.btn {
+	display: inline-block;
+	background-color: var(--colore-primario);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	padding: 0.55rem 1.1rem;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 1rem;
+}
+
+.btn:hover {
+	background-color: var(--colore-primario-scuro);
+}
+
+/* Bottone "Accedi con Google": segue le linee guida di branding di Google (bianco/grigio),
+   non la palette rosso/oro del sito, come in SIWHotel. */
+.btn-google {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	max-width: 560px;
+	width: 100%;
+	margin: 1rem 0;
+	background-color: #ffffff;
+	color: #3c4043;
+	border: 1px solid #dadce0;
+	padding: 0.55rem 1.1rem;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 6px;
+	text-decoration: none;
+	box-sizing: border-box;
+	transition: box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-google:hover {
+	background-color: #f7f8f8;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+	text-decoration: none;
+}
+
+.btn-google img {
+	width: 18px;
+	height: 18px;
+}
+
+.btn-outline {
+	background: white;
+	color: var(--colore-primario);
+	border: 1px solid var(--colore-primario);
+}
+
+.btn-danger {
+	background-color: var(--colore-errore);
+}
+
+.messaggio-errore {
+	color: var(--colore-errore);
+	font-size: 0.9rem;
+}
+
+.messaggio-successo {
+	color: var(--colore-successo);
+}
+
+.box-avviso {
+	background: #fdecea;
+	border: 1px solid var(--colore-errore);
+	color: var(--colore-errore);
+	padding: 0.8rem 1rem;
+	border-radius: 8px;
+	margin-bottom: 1rem;
+}
+
+.site-footer {
+	background-color: var(--colore-scuro);
+	color: var(--colore-oro);
+	text-align: center;
+	padding: 1.2rem;
+	font-size: 0.85rem;
+	margin-top: auto;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.app-mount {
+	min-height: 120px;
+}
+
+.stato-messaggio {
+	color: #666;
+}
+
+.riga-n1 td {
+	background-color: #fdecea;
+}
+
+.riga-migliore td {
+	background-color: #eaf7ee;
+}
+
+/* Controlli di paginazione, presenti in fondo a ogni elenco anche con una sola pagina:
+   « Precedente | Pagina X di Y | bottoni numerati (1, 2, 3, ...) | Successiva ». */
+.paginazione {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 1.5rem 0;
+}
+
+.pagina-info {
+	color: #555;
+	font-size: 0.9rem;
+	margin: 0 0.6rem;
+}
+
+.pagina-link.disabled {
+	opacity: 0.4;
+	pointer-events: none;
+	cursor: default;
+}
+
+/* Bottone numerato della pagina attualmente visualizzata: evidenziato e non cliccabile. */
+.pagina-link.pagina-corrente {
+	background-color: var(--colore-primario);
+	color: white;
+	border-color: var(--colore-primario);
+	pointer-events: none;
+	cursor: default;
+}
+
+/* Pagina di dettaglio film: griglia di schede compatte (regista/festival/proiezioni) invece di
+   semplici h2/ul, e sezione recensioni ben separata dal resto, con la scrittura di una nuova
+   recensione evidenziata rispetto all'elenco di quelle gia' scritte. */
+.film-locandina {
+	display: block;
+	max-width: 220px;
+	width: 100%;
+	border-radius: 10px;
+	border: 1px solid var(--colore-bordo);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+	margin-bottom: 1.2rem;
+}
+
+.film-info-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 1rem;
+	margin: 1.5rem 0;
+}
+
+.info-card {
+	background: white;
+	border: 1px solid var(--colore-bordo);
+	border-radius: 10px;
+	padding: 1rem 1.2rem;
+}
+
+.info-card h3 {
+	margin: 0 0 0.6rem 0;
+	font-family: var(--font-titoli);
+	color: var(--colore-primario-scuro);
+	font-size: 1.05rem;
+}
+
+.info-card ul {
+	margin: 0;
+	padding-left: 1.1rem;
+}
+
+.info-card li {
+	margin-bottom: 0.3rem;
+}
+
+.recensioni-sezione {
+	background: #fffdf8;
+	border: 1px solid var(--colore-bordo);
+	border-radius: 12px;
+	padding: 1.5rem;
+	margin-top: 2rem;
+}
+
+.recensioni-sezione > h2 {
+	margin-top: 0;
+}
+
+.recensione-form-card {
+	background: white;
+	border: 1px solid var(--colore-oro);
+	border-left: 4px solid var(--colore-oro);
+	border-radius: 10px;
+	padding: 1.2rem 1.4rem;
+	margin-bottom: 1.5rem;
+}
+
+.recensione-form-card h3 {
+	margin-top: 0;
+	font-family: var(--font-titoli);
+	color: var(--colore-primario-scuro);
+}
+
+.recensione-item {
+	background: white;
+	border: 1px solid var(--colore-bordo);
+	border-radius: 10px;
+	padding: 1rem 1.2rem;
+	margin-bottom: 0.9rem;
+}
+
+.recensione-header {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.5rem;
+}
+
+.avatar-iniziali {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background-color: var(--colore-primario-scuro);
+	color: white;
+	font-size: 0.8rem;
+	font-weight: bold;
+	flex-shrink: 0;
+}
+
+.autore-link {
+	font-weight: 600;
+	color: var(--colore-testo);
+	text-decoration: none;
+}
+
+.autore-link:hover {
+	color: var(--colore-primario);
+	text-decoration: underline;
+}
+
+.recensione-data {
+	color: #888;
+	font-size: 0.85rem;
+	margin-left: auto;
+}
+
+.recensione-azioni {
+	margin-top: 0.6rem;
+	font-size: 0.9rem;
+}

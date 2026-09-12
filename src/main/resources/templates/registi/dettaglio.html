@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${regista.nome + ' ' + regista.cognome}">Regista</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="${regista.nome + ' ' + regista.cognome}">Nome Cognome</h1>
+	<p class="page-subtitle">
+		<span th:text="${regista.nazionalita}">Nazionalita'</span> &middot;
+		nato il <span th:text="${regista.dataNascita}">data</span>
+	</p>
+
+	<h2>Film diretti</h2>
+	<p th:if="${#lists.isEmpty(regista.film)}">Nessun film registrato per questo regista.</p>
+	<div class="card-grid">
+		<a class="card" th:each="film : ${regista.film}" th:href="@{/film/{id}(id=${film.id})}">
+			<h3 th:text="${film.titolo}">Titolo</h3>
+			<p th:text="${film.genere + ' - ' + film.anno}">Genere - Anno</p>
+		</a>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

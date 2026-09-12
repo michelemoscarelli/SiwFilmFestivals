@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="'Programma - ' + ${festival.nome}">Programma proiezioni</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Programma di ' + ${festival.nome}">Programma proiezioni</h1>
+
+	<p sec:authorize="hasAuthority('ADMIN_ROLE')">
+		<a class="btn btn-outline" th:href="@{/admin/proiezioni}">Vai a gestione proiezioni</a>
+	</p>
+
+	<p th:if="${#lists.isEmpty(programma)}">Nessuna proiezione ancora programmata.</p>
+	<table class="data-table" th:unless="${#lists.isEmpty(programma)}">
+		<thead>
+		<tr><th>Data</th><th>Ora</th><th>Film</th><th>Sala</th><th>Stato</th><th sec:authorize="hasAuthority('ADMIN_ROLE')">Azioni</th></tr>
+		</thead>
+		<tbody>
+		<tr th:each="p : ${programma}">
+			<td th:text="${p.data}">Data</td>
+			<td th:text="${p.ora}">Ora</td>
+			<td><a th:href="@{/film/{id}(id=${p.film.id})}" th:text="${p.film.titolo}">Film</a></td>
+			<td th:text="${p.sala.nome}">Sala</td>
+			<td th:text="${p.stato}">Stato</td>
+			<td sec:authorize="hasAuthority('ADMIN_ROLE')">
+				<a th:href="@{/admin/proiezioni/{id}/modifica(id=${p.id},origine='programma')}">Modifica</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<p><a th:href="@{/festival/{id}(id=${festival.id})}">&laquo; Torna al festival</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

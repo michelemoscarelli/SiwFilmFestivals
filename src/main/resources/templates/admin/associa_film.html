@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione film del festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Film di ' + ${festival.nome}">Gestione film del festival</h1>
+	<p class="messaggio-successo" th:if="${esito}" th:text="${esito}"></p>
+
+	<h2>Associa un film</h2>
+	<form class="form-verticale" th:action="@{/admin/festival/{id}/associa-film(id=${festival.id})}" method="post">
+		<div>
+			<label for="filmId">Film</label>
+			<select id="filmId" name="filmId">
+				<option th:each="film : ${tuttiIFilm}" th:value="${film.id}"
+				        th:text="${film.titolo + ' (' + film.anno + ')'}">Film</option>
+			</select>
+		</div>
+		<button type="submit" class="btn">Associa al festival</button>
+	</form>
+
+	<h2>Film gia' associati</h2>
+	<p th:if="${#lists.isEmpty(filmPartecipanti)}">Nessun film ancora associato.</p>
+	<table class="data-table" th:unless="${#lists.isEmpty(filmPartecipanti)}">
+		<thead><tr><th>Titolo</th><th>Anno</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="film : ${filmPartecipanti}">
+			<td th:text="${film.titolo}">Titolo</td>
+			<td th:text="${film.anno}">Anno</td>
+			<td>
+				<form th:action="@{/admin/festival/{id}/rimuovi-film/{filmId}(id=${festival.id},filmId=${film.id})}" method="post">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Rimuovi dal festival</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<p><a th:href="@{/admin/festival}">&laquo; Torna alla gestione festival</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

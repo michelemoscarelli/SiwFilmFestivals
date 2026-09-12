@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Dashboard admin</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Dashboard amministrazione</h1>
+	<div class="card-grid">
+		<a class="card" th:href="@{/admin/festival}">
+			<h2>Festival</h2>
+			<p th:text="${numeroFestival} + ' festival censiti'">N festival</p>
+		</a>
+		<a class="card" th:href="@{/admin/film}">
+			<h2>Film</h2>
+			<p th:text="${numeroFilm} + ' film censiti'">N film</p>
+		</a>
+		<a class="card" th:href="@{/admin/registi}">
+			<h2>Registi</h2>
+			<p th:text="${numeroRegisti} + ' registi censiti'">N registi</p>
+		</a>
+		<a class="card" th:href="@{/admin/sale}">
+			<h2>Sale</h2>
+			<p th:text="${numeroSale} + ' sale censite'">N sale</p>
+		</a>
+		<a class="card" th:href="@{/admin/proiezioni}">
+			<h2>Proiezioni</h2>
+			<p>Elenco e gestione delle proiezioni programmate</p>
+		</a>
+		<a class="card" th:href="@{/admin/utenti}">
+			<h2>Utenti</h2>
+			<p th:text="${numeroUtenti} + ' utenti registrati'">N utenti</p>
+		</a>
+		<a class="card" th:href="@{/admin/analisi}">
+			<h2>Analisi performance</h2>
+			<p>Confronto strategie di fetch (N+1 vs JOIN FETCH vs @EntityGraph)</p>
+		</a>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

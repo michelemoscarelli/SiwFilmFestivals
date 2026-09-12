@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="header">
+
+	<div class="site-topbar">
+		<a th:href="@{/}" class="site-logo">SIW Film Festivals</a>
+	</div>
+
+	<nav class="site-navbar">
+
+		<div class="navbar-left">
+			<a th:href="@{/}" class="nav-link">Home</a>
+			<a th:href="@{/festival}" class="nav-link">Festival</a>
+			<a th:href="@{/film}" class="nav-link">Film</a>
+			<a th:href="@{/proiezioni}" class="nav-link">Proiezioni</a>
+		</div>
+
+		<div class="navbar-right">
+
+			<th:block sec:authorize="!isAuthenticated()">
+				<a th:href="@{/registrazione}" class="nav-btn nav-btn-outline">Registrati</a>
+				<a th:href="@{/login}" class="nav-btn nav-btn-primary">Accedi</a>
+			</th:block>
+
+			<th:block sec:authorize="isAuthenticated()">
+				<span class="navbar-welcome" th:if="${utente != null}" th:text="'Ciao, ' + ${utente.nome}">Ciao, Utente</span>
+
+				<a sec:authorize="hasAuthority('ADMIN_ROLE')" th:href="@{/admin/dashboard}" class="nav-btn nav-btn-outline">Admin</a>
+				<a th:href="@{/area-personale}" class="nav-btn nav-btn-outline">Area personale</a>
+
+				<form th:action="@{/logout}" method="post" class="navbar-logout-form">
+					<button type="submit" class="nav-btn nav-btn-danger">Esci</button>
+				</form>
+			</th:block>
+
+		</div>
+
+	</nav>
+
+</div>
+
+<div th:fragment="footer" class="site-footer">
+	<p>Siw Film Festivals 2026</p>
+</div>
+
+</body>
+</html>

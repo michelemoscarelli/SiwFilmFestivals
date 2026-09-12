@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Festival</h1>
+	<p>Totale festival: <span th:text="${totaleFestival}">0</span></p>
+	<p class="page-subtitle" th:if="${#lists.isEmpty(elencoFestival)}">Nessun festival disponibile al momento.</p>
+	<div class="card-grid">
+		<a class="card" th:each="festival : ${elencoFestival}" th:href="@{/festival/{id}(id=${festival.id})}">
+			<h2 th:text="${festival.nome}">Nome festival</h2>
+			<p><span class="badge" th:text="${festival.anno}">2026</span> <span th:text="${festival.citta}">Citta'</span></p>
+			<p th:text="${festival.dataInizio + ' - ' + festival.dataFine}">01/01 - 05/01</p>
+		</a>
+	</div>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/festival')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

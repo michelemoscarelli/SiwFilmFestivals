@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione film</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione film</h1>
+	<p><a class="btn" th:href="@{/admin/film/aggiungi}">+ Nuovo film</a></p>
+	<table class="data-table">
+		<thead><tr><th>Titolo</th><th>Anno</th><th>Regista</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="film : ${elencoFilm}">
+			<td th:text="${film.titolo}">Titolo</td>
+			<td th:text="${film.anno}">Anno</td>
+			<td th:text="${film.regista.nome + ' ' + film.regista.cognome}">Regista</td>
+			<td>
+				<a th:href="@{/film/{id}(id=${film.id})}">Vedi</a>
+				&middot;
+				<a th:href="@{/admin/film/{id}/modifica(id=${film.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/admin/film/{id}/elimina(id=${film.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/film')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

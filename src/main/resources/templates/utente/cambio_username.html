@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Cambia username</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Cambia username</h1>
+	<p class="page-subtitle">Al prossimo accesso dovrai usare il nuovo username per accedere.</p>
+	<form class="form-verticale" th:action="@{/area-personale/profilo/cambio-username}"
+	      th:object="${cambioUsernameDto}" method="post">
+		<div>
+			<label for="nuovoUsername">Nuovo username</label>
+			<input type="text" id="nuovoUsername" th:field="*{nuovoUsername}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nuovoUsername')}" th:errors="*{nuovoUsername}"></span>
+			<span class="messaggio-errore" th:if="${erroreUsername}" th:text="${erroreUsername}"></span>
+		</div>
+		<button type="submit" class="btn">Salva</button>
+	</form>
+	<p><a th:href="@{/area-personale/profilo}">&laquo; Torna al profilo</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

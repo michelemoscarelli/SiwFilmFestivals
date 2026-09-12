@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Analisi performance</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Analisi strategie di fetch</h1>
+	<p class="page-subtitle">
+		Caso d'uso: caricamento del programma di un festival con film e sale. Confronto tra fetch di
+		default (LAZY, N+1), JOIN FETCH esplicito e @EntityGraph, misurato con le Statistics di
+		Hibernate (numero di query SQL) e System.nanoTime() (tempo in millisecondi).
+	</p>
+
+	<form class="form-verticale" th:action="@{/admin/analisi}" method="get" style="max-width:360px;">
+		<div>
+			<label for="festivalId">Festival da analizzare</label>
+			<select id="festivalId" name="festivalId" onchange="this.form.submit()">
+				<option th:each="festival : ${elencoFestival}" th:value="${festival.id}"
+				        th:selected="${festival.id == festivalId}"
+				        th:text="${festival.nome + ' (' + festival.anno + ')'}">Festival</option>
+			</select>
+		</div>
+	</form>
+
+	<p th:if="${#lists.isEmpty(elencoFestival)}">Nessun festival disponibile: crea prima un festival con proiezioni.</p>
+
+	<table class="data-table" th:if="${risultati != null}" th:with="baseline=${risultati[0].numeroQuery}">
+		<thead>
+		<tr>
+			<th>Strategia</th>
+			<th>Descrizione</th>
+			<th>Proiezioni</th>
+			<th>Query SQL eseguite</th>
+			<th>Tempo (ms)</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="r, iter : ${risultati}" th:classappend="${iter.index == 0} ? 'riga-n1' : 'riga-migliore'">
+			<td th:text="${r.strategia}">Strategia</td>
+			<td th:text="${r.descrizione}">Descrizione</td>
+			<td th:text="${r.numeroRisultati}">0</td>
+			<td th:text="${r.numeroQuery}">0</td>
+			<td th:text="${#numbers.formatDecimal(r.tempoMs, 1, 3)}">0</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<div th:if="${risultati != null and #lists.size(risultati) > 1}"
+	     th:with="baseline=${risultati[0].numeroQuery}, ottimizzato=${risultati[1].numeroQuery}"
+	     th:class="${baseline > ottimizzato} ? 'box-avviso' : 'messaggio-successo'">
+		<span th:if="${baseline > ottimizzato}">
+			Problema N+1 confermato: la strategia di default esegue
+			<strong th:text="${baseline - ottimizzato}">N</strong> query SQL in piu' rispetto a JOIN FETCH / @EntityGraph
+			per caricare lo stesso programma di <strong th:text="${risultati[0].numeroRisultati}">N</strong> proiezioni.
+		</span>
+		<span th:unless="${baseline > ottimizzato}">
+			Con questo numero di proiezioni la differenza tra le strategie non e' misurabile: prova un festival con piu' proiezioni.
+		</span>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

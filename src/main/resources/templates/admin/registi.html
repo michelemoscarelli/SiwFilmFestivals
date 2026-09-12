@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione registi</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione registi</h1>
+	<p><a class="btn" th:href="@{/admin/registi/aggiungi}">+ Nuovo regista</a></p>
+	<table class="data-table">
+		<thead><tr><th>Nome</th><th>Cognome</th><th>Nazionalita'</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="regista : ${elencoRegisti}">
+			<td th:text="${regista.nome}">Nome</td>
+			<td th:text="${regista.cognome}">Cognome</td>
+			<td th:text="${regista.nazionalita}">Nazionalita'</td>
+			<td>
+				<a th:href="@{/registi/{id}(id=${regista.id})}">Vedi</a>
+				&middot;
+				<a th:href="@{/admin/registi/{id}/modifica(id=${regista.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/admin/registi/{id}/elimina(id=${regista.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/registi')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

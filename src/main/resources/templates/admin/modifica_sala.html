@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifica sala</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Modifica ' + ${sala.nome}">Modifica sala</h1>
+	<form class="form-verticale" th:action="@{/admin/sale/{id}/modifica(id=${sala.id})}"
+	      th:object="${salaFormDto}" method="post">
+		<div>
+			<label for="nome">Nome</label>
+			<input type="text" id="nome" th:field="*{nome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		<div>
+			<label for="indirizzo">Indirizzo</label>
+			<input type="text" id="indirizzo" th:field="*{indirizzo}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('indirizzo')}" th:errors="*{indirizzo}"></span>
+		</div>
+		<div>
+			<label for="capienza">Capienza</label>
+			<input type="number" id="capienza" th:field="*{capienza}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('capienza')}" th:errors="*{capienza}"></span>
+		</div>
+		<button type="submit" class="btn">Salva modifiche</button>
+	</form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

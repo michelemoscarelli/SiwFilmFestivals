@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione proiezioni</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione proiezioni</h1>
+	<table class="data-table">
+		<thead><tr><th>Data</th><th>Ora</th><th>Film</th><th>Sala</th><th>Festival</th><th>Stato</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="p : ${elencoProiezioni}">
+			<td th:text="${p.data}">Data</td>
+			<td th:text="${p.ora}">Ora</td>
+			<td th:text="${p.film.titolo}">Film</td>
+			<td th:text="${p.sala.nome}">Sala</td>
+			<td th:text="${p.festival.nome}">Festival</td>
+			<td th:text="${p.stato}">Stato</td>
+			<td>
+				<a th:href="@{/admin/proiezioni/{id}/modifica(id=${p.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/admin/proiezioni/{id}/cancella(id=${p.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button">Cancella</button>
+				</form>
+				&middot;
+				<form th:action="@{/admin/proiezioni/{id}/elimina(id=${p.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/proiezioni')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

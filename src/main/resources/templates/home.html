@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>SIW Film Festivals</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">SIW Film Festivals</h1>
+	<p class="page-subtitle">Scopri i festival cinematografici, i film in programma e le recensioni della community.</p>
+
+	<h2 class="sezione-titolo">Festival in primo piano</h2>
+	<p th:if="${#lists.isEmpty(festivalInPrimoPiano)}">Nessun festival in programma al momento.</p>
+	<div class="card-grid" th:unless="${#lists.isEmpty(festivalInPrimoPiano)}">
+		<a class="card card-in-evidenza" th:each="festival : ${festivalInPrimoPiano}" th:href="@{/festival/{id}(id=${festival.id})}">
+			<h3 th:text="${festival.nome}">Nome festival</h3>
+			<p><span class="badge" th:text="${festival.anno}">2026</span> <span th:text="${festival.citta}">Citta'</span></p>
+			<p th:text="${festival.dataInizio + ' - ' + festival.dataFine}">date</p>
+		</a>
+	</div>
+
+	<div class="card-grid" style="margin-top:2rem;">
+		<a class="card" th:href="@{/festival}">
+			<h2>Festival</h2>
+			<p>Sfoglia l'elenco dei festival, i loro film e il programma delle proiezioni.</p>
+		</a>
+		<a class="card" th:href="@{/film}">
+			<h2>Film</h2>
+			<p>Cerca un film per titolo e leggi le recensioni della community.</p>
+		</a>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

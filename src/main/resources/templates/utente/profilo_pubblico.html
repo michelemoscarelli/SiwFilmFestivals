@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${utenteProfilo.nome + ' ' + utenteProfilo.cognome}">Profilo utente</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="${utenteProfilo.nome + ' ' + utenteProfilo.cognome}">Nome Cognome</h1>
+	<p class="page-subtitle" th:text="${#lists.size(recensioni)} + ' recensioni scritte'">N recensioni</p>
+
+	<h2>Recensioni</h2>
+	<p th:if="${#lists.isEmpty(recensioni)}">Questo utente non ha ancora scritto recensioni.</p>
+	<div th:each="r : ${recensioni}" class="card" style="margin-bottom:0.8rem;">
+		<p><a th:href="@{/film/{id}(id=${r.film.id})}" th:text="${r.film.titolo}">Film</a>
+			&mdash; <span class="badge" th:text="${r.voto + '/10'}">Voto</span>
+			&mdash; <span th:text="${r.data + ' ' + #temporals.format(r.oraEffettiva, 'HH:mm')}">Data</span></p>
+		<p th:text="${r.testo}">Testo</p>
+	</div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

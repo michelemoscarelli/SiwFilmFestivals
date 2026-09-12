@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifica recensione</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Modifica recensione - ' + ${recensione.film.titolo}">Modifica recensione</h1>
+	<form class="form-verticale" th:action="@{/recensioni/{id}/modifica(id=${recensione.id})}"
+	      th:object="${recensioneDto}" method="post">
+		<div>
+			<label for="voto">Voto (1-10)</label>
+			<input type="number" id="voto" min="1" max="10" th:field="*{voto}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
+		</div>
+		<div>
+			<label for="testo">Recensione</label>
+			<textarea id="testo" rows="3" th:field="*{testo}"></textarea>
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
+		</div>
+		<button type="submit" class="btn">Salva modifiche</button>
+	</form>
+	<p><a th:href="@{/film/{id}(id=${recensione.film.id})}">&laquo; Torna al film</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ricerca proiezioni</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Ricerca proiezioni per data</h1>
+	<p class="page-subtitle">Trova tutte le proiezioni, di qualunque festival, programmate in un giorno.</p>
+
+	<form class="form-verticale" th:action="@{/proiezioni}" method="get" style="max-width:280px;">
+		<div>
+			<label for="data">Data</label>
+			<input type="date" id="data" name="data" th:value="${dataRicerca}" onchange="this.form.submit()">
+		</div>
+	</form>
+
+	<h2 th:text="'Proiezioni del ' + ${dataRicerca}">Proiezioni</h2>
+	<p th:if="${#lists.isEmpty(proiezioni)}">Nessuna proiezione programmata in questa data.</p>
+	<table class="data-table" th:unless="${#lists.isEmpty(proiezioni)}">
+		<thead>
+		<tr><th>Ora</th><th>Film</th><th>Sala</th><th>Festival</th><th>Stato</th></tr>
+		</thead>
+		<tbody>
+		<tr th:each="p : ${proiezioni}">
+			<td th:text="${p.ora}">Ora</td>
+			<td><a th:href="@{/film/{id}(id=${p.film.id})}" th:text="${p.film.titolo}">Film</a></td>
+			<td th:text="${p.sala.nome}">Sala</td>
+			<td><a th:href="@{/festival/{id}(id=${p.festival.id})}" th:text="${p.festival.nome}">Festival</a></td>
+			<td th:text="${p.stato}">Stato</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

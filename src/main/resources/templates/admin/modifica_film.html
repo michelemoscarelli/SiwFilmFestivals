@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifica film</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Modifica ' + ${film.titolo}">Modifica film</h1>
+	<img th:if="${film.locandina != null}" th:src="@{${film.locandina}}" alt="Locandina attuale"
+	     style="max-width:180px; border-radius:8px; display:block; margin-bottom:1rem;">
+	<form class="form-verticale" th:action="@{/admin/film/{id}/modifica(id=${film.id})}"
+	      th:object="${filmFormDto}" method="post" enctype="multipart/form-data">
+		<div>
+			<label for="titolo">Titolo</label>
+			<input type="text" id="titolo" th:field="*{titolo}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('titolo')}" th:errors="*{titolo}"></span>
+		</div>
+		<div>
+			<label for="anno">Anno</label>
+			<input type="number" id="anno" th:field="*{anno}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></span>
+		</div>
+		<div>
+			<label for="durata">Durata (minuti)</label>
+			<input type="number" id="durata" th:field="*{durata}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('durata')}" th:errors="*{durata}"></span>
+		</div>
+		<div>
+			<label for="genere">Genere</label>
+			<input type="text" id="genere" th:field="*{genere}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('genere')}" th:errors="*{genere}"></span>
+		</div>
+		<div>
+			<label for="paeseProduzione">Paese di produzione</label>
+			<input type="text" id="paeseProduzione" th:field="*{paeseProduzione}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('paeseProduzione')}" th:errors="*{paeseProduzione}"></span>
+		</div>
+		<div>
+			<label for="registaId">Regista</label>
+			<select id="registaId" th:field="*{registaId}">
+				<option th:each="regista : ${registi}" th:value="${regista.id}"
+				        th:text="${regista.nome + ' ' + regista.cognome}">Regista</option>
+			</select>
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('registaId')}" th:errors="*{registaId}"></span>
+		</div>
+		<div>
+			<label for="locandina">Nuova locandina (lascia vuoto per non cambiarla)</label>
+			<input type="file" id="locandina" name="locandina" accept="image/*">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('locandina')}" th:errors="*{locandina}"></span>
+		</div>
+		<button type="submit" class="btn">Salva modifiche</button>
+	</form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

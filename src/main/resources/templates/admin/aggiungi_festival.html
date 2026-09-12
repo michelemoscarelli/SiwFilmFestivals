@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Nuovo festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Nuovo festival</h1>
+	<form class="form-verticale" th:action="@{/admin/festival/aggiungi}" th:object="${festivalFormDto}" method="post">
+		<div>
+			<label for="nome">Nome</label>
+			<input type="text" id="nome" th:field="*{nome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		<div>
+			<label for="anno">Anno</label>
+			<input type="number" id="anno" th:field="*{anno}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></span>
+		</div>
+		<div>
+			<label for="citta">Citta'</label>
+			<input type="text" id="citta" th:field="*{citta}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"></span>
+		</div>
+		<div>
+			<label for="dataInizio">Data inizio</label>
+			<input type="date" id="dataInizio" th:field="*{dataInizio}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('dataInizio')}" th:errors="*{dataInizio}"></span>
+		</div>
+		<div>
+			<label for="dataFine">Data fine</label>
+			<input type="date" id="dataFine" th:field="*{dataFine}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('dataFine')}" th:errors="*{dataFine}"></span>
+		</div>
+		<div>
+			<label for="descrizione">Descrizione</label>
+			<textarea id="descrizione" rows="4" th:field="*{descrizione}"></textarea>
+		</div>
+		<button type="submit" class="btn">Crea festival</button>
+	</form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

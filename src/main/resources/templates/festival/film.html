@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="'Film - ' + ${festival.nome}">Film del festival</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="'Film di ' + ${festival.nome}">Film del festival</h1>
+	<p th:if="${#lists.isEmpty(filmPartecipanti)}">Nessun film ancora associato a questo festival.</p>
+	<div class="card-grid">
+		<a class="card" th:each="film : ${filmPartecipanti}" th:href="@{/film/{id}(id=${film.id})}">
+			<h3 th:text="${film.titolo}">Titolo</h3>
+			<p th:text="${film.genere + ' - ' + film.anno}">Genere - Anno</p>
+			<p th:text="'Regia di ' + ${film.regista.nome} + ' ' + ${film.regista.cognome}">Regista</p>
+		</a>
+	</div>
+	<p><a th:href="@{/festival/{id}(id=${festival.id})}">&laquo; Torna al festival</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

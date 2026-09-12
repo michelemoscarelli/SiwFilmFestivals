@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Nuovo regista</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Nuovo regista</h1>
+	<form class="form-verticale" th:action="@{/admin/registi/aggiungi}" th:object="${registaFormDto}" method="post">
+		<div>
+			<label for="nome">Nome</label>
+			<input type="text" id="nome" th:field="*{nome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+		</div>
+		<div>
+			<label for="cognome">Cognome</label>
+			<input type="text" id="cognome" th:field="*{cognome}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+		</div>
+		<div>
+			<label for="dataNascita">Data di nascita</label>
+			<input type="date" id="dataNascita" th:field="*{dataNascita}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('dataNascita')}" th:errors="*{dataNascita}"></span>
+		</div>
+		<div>
+			<label for="nazionalita">Nazionalita'</label>
+			<input type="text" id="nazionalita" th:field="*{nazionalita}">
+			<span class="messaggio-errore" th:if="${#fields.hasErrors('nazionalita')}" th:errors="*{nazionalita}"></span>
+		</div>
+		<button type="submit" class="btn">Crea regista</button>
+	</form>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

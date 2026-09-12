@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+	<link rel="stylesheet" th:href="@{/film-app/assets/film.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Elenco e ricerca dei film </h1>
+	<p class="page-subtitle">Questa pagina e' renderizzata dal componente React FilmList (vedi frontend/).</p>
+	<div id="root" class="app-mount"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+<script type="module" th:src="@{/film-app/assets/film.js}"></script>
+</body>
+</html>

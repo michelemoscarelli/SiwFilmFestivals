@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Errore</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<!--
+	Ultima rete di sicurezza (fallback) di Spring Boot: usata SOLO per gli errori che non passano
+	da un controller e quindi non arrivano mai a GlobalExceptionHandler (es. un metodo HTTP non
+	supportato = 405, una richiesta malformata = 400, o un errore sollevato da un filtro prima del
+	routing). Per tutto il resto (404, 403, 500 "normali") continuano a essere usate le pagine
+	dedicate in error/403.html, error/404.html, error/500.html. ${status} e' valorizzato
+	automaticamente da Spring Boot (DefaultErrorAttributes), senza bisogno di un ErrorController.
+	-->
+	<h1 class="page-title" th:if="${status == 404}"><span th:text="${status}">404</span> &mdash; Pagina non trovata</h1>
+	<h1 class="page-title" th:if="${status == 403}"><span th:text="${status}">403</span> &mdash; Accesso negato</h1>
+	<h1 class="page-title" th:unless="${status == 404 or status == 403}">
+		<span th:text="${status != null ? status : '—'}">Errore</span> &mdash; Si &egrave; verificato un errore
+	</h1>
+
+	<p th:if="${status == 404}">La pagina che cerchi non esiste o e' stata spostata.</p>
+	<p th:if="${status == 403}">Non hai i permessi necessari per accedere a questa pagina.</p>
+	<p th:unless="${status == 404 or status == 403}">Qualcosa e' andato storto. Riprova piu' tardi.</p>
+
+	<a class="btn" th:href="@{/}">Torna alla home</a>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

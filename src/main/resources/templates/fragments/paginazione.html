@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+Controlli di paginazione riutilizzabili in tutte le viste con elenco (10 elementi per pagina):
+« Precedente | Pagina X di Y | bottoni numerati (1, 2, 3, ...) | Successiva ».
+Compaiono sempre in fondo all'elenco, anche con una sola pagina totale: in quel caso i link
+precedente/successiva sono presenti ma disabilitati (classe "disabled", non nascosti) e c'e' un
+solo bottone numerato "1" attivo.
+Parametri: paginaCorrente (int, 1-based), totalePagine (int), baseUrl (string, es. '/festival').
+-->
+<div th:fragment="controlli(paginaCorrente, totalePagine, baseUrl)" class="paginazione"
+     th:with="totPag=${totalePagine != null and totalePagine >= 1 ? totalePagine : 1}">
+
+	<a th:href="${paginaCorrente > 1} ? @{__${baseUrl}__(pagina=${paginaCorrente - 1})} : '#'"
+	   th:class="${paginaCorrente > 1} ? 'btn btn-outline pagina-link' : 'btn btn-outline pagina-link disabled'"
+	   aria-label="Pagina precedente">&laquo; Precedente</a>
+
+	<span class="pagina-info">Pagina <span th:text="${paginaCorrente}">1</span> di <span th:text="${totPag}">1</span></span>
+
+	<a th:each="n : ${#numbers.sequence(1, totPag)}"
+	   th:href="${n == paginaCorrente} ? '#' : @{__${baseUrl}__(pagina=${n})}"
+	   th:text="${n}"
+	   th:class="${n == paginaCorrente} ? 'btn btn-outline pagina-link pagina-corrente' : 'btn btn-outline pagina-link'"
+	   th:aria-current="${n == paginaCorrente} ? 'page' : null">1</a>
+
+	<a th:href="${paginaCorrente < totPag} ? @{__${baseUrl}__(pagina=${paginaCorrente + 1})} : '#'"
+	   th:class="${paginaCorrente < totPag} ? 'btn btn-outline pagina-link' : 'btn btn-outline pagina-link disabled'"
+	   aria-label="Pagina successiva">Successiva &raquo;</a>
+</div>
+
+</body>
+</html>

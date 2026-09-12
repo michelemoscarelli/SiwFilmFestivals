@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${film.titolo}">Film</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title" th:text="${film.titolo}">Titolo film</h1>
+	<p class="page-subtitle">
+		<span th:text="${film.genere}">Genere</span> &middot;
+		<span th:text="${film.anno}">Anno</span> &middot;
+		<span th:text="${film.durata + ' min'}">Durata</span> &middot;
+		<span th:text="${film.paeseProduzione}">Paese</span>
+	</p>
+
+	<img th:if="${film.locandina != null}" th:src="@{${film.locandina}}"
+	     th:alt="'Locandina di ' + ${film.titolo}" class="film-locandina">
+
+	<div class="film-info-grid">
+		<div class="info-card">
+			<h3>Regista</h3>
+			<p>
+				<a th:href="@{/registi/{id}(id=${film.regista.id})}"
+				   th:text="${film.regista.nome + ' ' + film.regista.cognome}">Nome regista</a>
+			</p>
+		</div>
+
+		<div class="info-card">
+			<h3>Festival</h3>
+			<p th:if="${#lists.isEmpty(film.festival)}">Non ancora associato a nessun festival.</p>
+			<ul th:unless="${#lists.isEmpty(film.festival)}">
+				<li th:each="f : ${film.festival}">
+					<a th:href="@{/festival/{id}(id=${f.id})}" th:text="${f.nome + ' (' + f.anno + ')'}">Festival</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="info-card">
+			<h3>Proiezioni</h3>
+			<p th:if="${#lists.isEmpty(film.proiezioni)}">Nessuna proiezione programmata.</p>
+			<ul th:unless="${#lists.isEmpty(film.proiezioni)}">
+				<li th:each="p : ${film.proiezioni}"
+				    th:text="${p.data + ' ' + p.ora + ' - ' + p.sala.nome + ' (' + p.festival.nome + ')'}">Proiezione</li>
+			</ul>
+		</div>
+	</div>
+
+	<section class="recensioni-sezione">
+		<h2 th:text="'Recensioni (' + ${#lists.size(recensioni)} + ')'">Recensioni</h2>
+
+		<div class="recensione-form-card" sec:authorize="isAuthenticated()">
+			<h3>Scrivi la tua recensione</h3>
+			<p class="messaggio-errore" th:if="${erroreRecensione}" th:text="${erroreRecensione}"></p>
+			<form class="form-verticale" th:action="@{/film/{id}/recensioni(id=${film.id})}"
+			      th:object="${recensioneDto}" method="post">
+				<div>
+					<label for="voto">Voto (1-10)</label>
+					<input type="number" id="voto" min="1" max="10" th:field="*{voto}">
+					<span class="messaggio-errore" th:if="${#fields.hasErrors('voto')}" th:errors="*{voto}"></span>
+				</div>
+				<div>
+					<label for="testo">Recensione</label>
+					<textarea id="testo" rows="3" th:field="*{testo}"></textarea>
+					<span class="messaggio-errore" th:if="${#fields.hasErrors('testo')}" th:errors="*{testo}"></span>
+				</div>
+				<button type="submit" class="btn">Pubblica recensione</button>
+			</form>
+		</div>
+		<p sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Accedi</a> per lasciare una recensione.</p>
+
+		<p th:if="${#lists.isEmpty(recensioni)}">Nessuna recensione ancora scritta per questo film.</p>
+		<div th:each="r : ${recensioni}" class="recensione-item">
+			<div class="recensione-header">
+				<span class="avatar-iniziali"
+				      th:text="${#strings.substring(r.autore.nome,0,1) + #strings.substring(r.autore.cognome,0,1)}">AB</span>
+				<a class="autore-link" th:href="@{/utente/{id}(id=${r.autore.id})}"
+				   th:text="${r.autore.nome + ' ' + r.autore.cognome}">Autore</a>
+				<span class="badge" th:text="${r.voto + '/10'}">Voto</span>
+				<span class="recensione-data" th:text="${r.data + ' ' + #temporals.format(r.oraEffettiva, 'HH:mm')}">Data</span>
+			</div>
+			<p th:text="${r.testo}">Testo recensione</p>
+			<div class="recensione-azioni" sec:authorize="isAuthenticated()" th:if="${utente != null and r.autore.id == utente.id}">
+				<a th:href="@{/recensioni/{id}/modifica(id=${r.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/recensioni/{id}/elimina(id=${r.id})}" method="post" style="display:inline;">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</div>
+		</div>
+	</section>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

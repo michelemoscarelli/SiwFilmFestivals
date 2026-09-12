@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Il mio profilo</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Il mio profilo</h1>
+	<p class="messaggio-successo" th:if="${param.successo != null}" th:text="${param.successo}"></p>
+	<p class="messaggio-errore" th:if="${param.erroreEliminazione != null}" th:text="${param.erroreEliminazione}"></p>
+
+	<div class="card" style="max-width:480px; margin-bottom:1.2rem;">
+		<h2>Dati personali</h2>
+		<p><strong>Nome:</strong> <span th:text="${utenteProfilo.nome}">Nome</span></p>
+		<p><strong>Cognome:</strong> <span th:text="${utenteProfilo.cognome}">Cognome</span></p>
+		<p><strong>Email:</strong> <span th:text="${utenteProfilo.email}">Email</span></p>
+		<a class="btn btn-outline" th:href="@{/area-personale/profilo/modifica-dati-personali}">Modifica dati personali</a>
+	</div>
+
+	<div class="card" style="max-width:480px; margin-bottom:1.2rem;">
+		<h2>Accesso</h2>
+		<p><strong>Username:</strong> <span th:text="${utenteProfilo.credenziali.username}">username</span></p>
+		<a class="btn btn-outline" th:href="@{/area-personale/profilo/cambio-username}">Cambia username</a>
+		&nbsp;
+		<a class="btn btn-outline" th:href="@{/area-personale/profilo/cambio-password}">Cambia password</a>
+	</div>
+
+	<!-- Un admin non puo' eliminare il proprio account da qui (si bloccherebbe fuori da solo):
+	     stesso motivo per cui il pannello admin/utenti impedisce l'auto-eliminazione. -->
+	<div class="card" style="max-width:480px; margin-bottom:1.2rem; border-color: var(--colore-errore);"
+	     th:if="${utenteProfilo.credenziali.ruolo.name() != 'ADMIN_ROLE'}">
+		<h2>Elimina account</h2>
+		<p>Questa azione e' irreversibile: verranno eliminati anche il tuo account e le tue recensioni.</p>
+		<form th:action="@{/area-personale/profilo/elimina}" method="post"
+		      onsubmit="return confirm('Eliminare definitivamente il tuo account? L\'operazione non e\' reversibile.');">
+			<button type="submit" class="btn btn-danger">Elimina il mio account</button>
+		</form>
+	</div>
+
+	<p><a th:href="@{/area-personale}">&laquo; Torna all'area personale</a></p>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>

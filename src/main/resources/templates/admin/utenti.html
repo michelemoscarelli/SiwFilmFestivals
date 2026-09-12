@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestione utenti</title>
+	<link rel="stylesheet" th:href="@{/css/layout.css}">
+</head>
+<body>
+<div th:replace="~{fragments/layout :: header}"></div>
+<div class="page-container">
+	<h1 class="page-title">Gestione utenti</h1>
+	<p class="messaggio-errore" th:if="${erroreUtenti}" th:text="${erroreUtenti}"></p>
+	<table class="data-table">
+		<thead><tr><th>Nome</th><th>Cognome</th><th>Email</th><th>Username</th><th>Ruolo</th><th>Azioni</th></tr></thead>
+		<tbody>
+		<tr th:each="utente : ${elencoUtenti}">
+			<td th:text="${utente.nome}">Nome</td>
+			<td th:text="${utente.cognome}">Cognome</td>
+			<td th:text="${utente.email}">Email</td>
+			<td th:text="${utente.credenziali.username}">Username</td>
+			<td th:text="${utente.credenziali.ruolo}">Ruolo</td>
+			<td>
+				<a th:href="@{/utente/{id}(id=${utente.id})}">Vedi</a>
+				&middot;
+				<a th:href="@{/admin/utenti/{id}/modifica(id=${utente.id})}">Modifica</a>
+				&middot;
+				<form th:action="@{/admin/utenti/{id}/elimina(id=${utente.id})}" method="post" style="display:inline;"
+				      onsubmit="return confirm('Eliminare questo utente e tutte le sue recensioni?');">
+					<button type="submit" class="link-button" style="color:var(--colore-errore);">Elimina</button>
+				</form>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div th:replace="~{fragments/paginazione :: controlli(paginaCorrente=${paginaCorrente}, totalePagine=${totalePagine}, baseUrl='/admin/utenti')}"></div>
+</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
+</body>
+</html>
